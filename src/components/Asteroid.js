@@ -8,7 +8,7 @@ export default function Asteroid(props) {
   let issaHit;
 
   const suddenImpact = useCallback( () => {
-    props.scoreHandler(-10);
+    props.scoreHandler(-10, props.id);
     splodeIt();
   }, [props]);
 
@@ -16,10 +16,14 @@ export default function Asteroid(props) {
     issaHit = window.setTimeout( () => {
       suddenImpact();
     }, 9500);
+
+    return () => {
+      console.log('BYE. ', props.id);
+    };
   }, [suddenImpact]);
 
   function directHit() {
-    props.scoreHandler(+5);
+    props.scoreHandler(5, ast);
     clearInterval(issaHit);
     splodeIt();
   };
@@ -33,7 +37,7 @@ export default function Asteroid(props) {
   };
 
   return (
-    <div className='asteroid-container' onClick={directHit} ref={ast} style={{left: xAxis}} >
+    <div className='asteroid-container' onClick={directHit} ref={ast} id={props.id} style={{left: xAxis}} >
       <div className={`asteroid a${aNum.toFixed(0)} ${splode}`}></div>
     </div>
   );
