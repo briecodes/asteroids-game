@@ -1,71 +1,47 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import AppContext from '../AppContext';
 
 import Asteroid from './Asteroid';
-import Score from './Score';
 
-import Nyah from '../assets/audio/mini-moose-nyah.mp3';
-
-export default function AsteroidField() {
-  const domScore = useRef();
-  const domHealth = useRef();
-  const nyah = new Audio(Nyah);
+export default function AsteroidField(props) {
+  const context = useContext(AppContext);
   const randomInterval = Math.random() * 1000 + 1;
-  const [score, setScore] = useState(0);
   const [asteroidCounter, setAsteroidCounter] = useState(0);
   const [asteroidArray, setAsteroidArray] = useState([]);
-  const [gameStage, setGameStage] = useState('start');
-  const [health, setHealth] = useState(100);
-  let gameInterval;
+  const currArr = useRef();
+
 
   useEffect( () => {
-    if (gameStage === 'gameplay') startGame();
+    if (context.health < 10) endGame();
+    currArr.current = asteroidArray;
+
+    const gameInterval = window.setInterval(() => {
+      addAsteroid();
+    }, randomInterval);
 
     return () => {
       clearInterval(gameInterval);
     };
   });
 
-  function startGame() {
-    setGameStage('gameplay');
-    
-    gameInterval = window.setInterval(() => {
-      addAsteroid();
-    }, randomInterval);
-  };
-
   function addAsteroid() {
-    setAsteroidArray([...asteroidArray, <Asteroid key={asteroidCounter + 'a'} id={asteroidCounter + 'a'} scoreHandler={scoreHandler} />]);
+    setAsteroidArray([...asteroidArray, <Asteroid key={asteroidCounter + 'a'} id={asteroidCounter + 'a'} removeAsteroid={removeAsteroid} scoreHandler={props.scoreHandler} />]);
     setAsteroidCounter(asteroidCounter + 1);
   };
 
   function removeAsteroid(id) {
-    // console.log('asteroid ID: ', id.current);
-    // console.log('asteroidArray', asteroidArray);
+    const item = currArr.current.find(n => {return n.key === id} );
+    const itemIndex = currArr.current.indexOf(item);
+    currArr.current.splice(itemIndex, 1);
   };
 
-  function scoreHandler(n, id) {
-    removeAsteroid(id);
-    setScore(parseInt(domScore.current.textContent) + n);
-    if (n < 0) setHealth(parseInt(domHealth.current.style.width) - 10);
-    if ((parseInt(domHealth.current.style.width) - 10) < 0) {
-      setGameStage('end');
-      clearInterval(gameInterval);
-    };
+  function endGame() {
+    props.setGame(false);
   };
 
   return(
-    <div className='asteroid-field'>
-      <Score score={score} domScore={domScore} />
-      <div className='health-container'>
-        <div className='energia' ref={domHealth} style={{width: `${health}%`}}></div>
-      </div>
-
-      {gameStage === 'start' ? <button className='start' onClick={startGame}>Start Game</button> : null }
-
+    <React.Fragment>
       {asteroidArray}
-      
-      <div className='mini-moose' onClick={() => nyah.play()}></div>
-      <div className='planet'></div>
-    </div>
+    </React.Fragment>
   );
 };

@@ -1,44 +1,49 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useContext, useRef } from 'react';
+import AppContext from '../AppContext';
 
 export default function Asteroid(props) {
-  const [splode, setSplode] = useState('');
-  const xAxis = (Math.random() * 90 + 1) + '%'
+  const context = useContext(AppContext);
+  const asteroidContainer = useRef();
+  const asteroid = useRef();
+  const xAxis = (Math.random() * 90 + 1) + '%';
   const aNum = Math.random() * 3;
-  const ast = useRef();
-  let issaHit;
+  let armageddonTimeout = useRef();
 
-  const suddenImpact = useCallback( () => {
-    props.scoreHandler(-10, props.id);
-    splodeIt();
+  const splodeIt = useCallback(() => {
+    asteroidContainer.current.style.animationPlayState = 'paused';
+    asteroid.current.classList.add('splody');
+
+    window.setTimeout(() => {
+      props.removeAsteroid(props.id);
+    }, 250);
+
   }, [props]);
 
+  const suddenImpact = useCallback( () => {
+    context.health = context.health - 10;
+    props.scoreHandler(-10);
+    splodeIt();
+  }, [context, splodeIt, props]);
+
   useEffect(() => {
-    issaHit = window.setTimeout( () => {
+    armageddonTimeout.current = window.setTimeout( () => {
       suddenImpact();
     }, 9500);
 
     return () => {
-      console.log('BYE. ', props.id);
+      clearTimeout(armageddonTimeout.current);
     };
   }, [suddenImpact]);
 
   function directHit() {
-    props.scoreHandler(5, ast);
-    clearInterval(issaHit);
+    clearInterval(armageddonTimeout.current);
+    props.scoreHandler(5);
     splodeIt();
   };
 
-  function splodeIt() {
-    setSplode('splody');
-
-    window.setTimeout(() => {
-      ast.current.remove();
-    }, 125);
-  };
-
   return (
-    <div className='asteroid-container' onClick={directHit} ref={ast} id={props.id} style={{left: xAxis}} >
-      <div className={`asteroid a${aNum.toFixed(0)} ${splode}`}></div>
+    <div className='asteroid-container' onClick={directHit} id={props.id} ref={asteroidContainer} style={{left: xAxis}} >
+      <div className={`asteroid a${aNum.toFixed(0)}`} ref={asteroid}></div>
     </div>
   );
 };

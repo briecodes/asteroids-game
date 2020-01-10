@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import AsteroidField from './components/AsteroidField';
+import Gameboard from './components/Gameboard';
 
 function App() {
   const [counter, setCounter] = useState(0);
 
   return (
     <div className="App">
-        <AsteroidField counter={counter} setCounter={setCounter} />
+        <Gameboard counter={counter} setCounter={setCounter} />
     </div>
   );
 };
