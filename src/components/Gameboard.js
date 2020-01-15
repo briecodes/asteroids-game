@@ -24,7 +24,16 @@ export default function Gameboard() {
 
   function endGame() {
     setGame(false);
+    context.gameStage = 'end';
   };
+
+  function resetGame() {
+    context.health = 100;
+    setScore(0);
+    currScore.current = score;
+    setGame(true);
+    context.gameStage = 'play';
+  }
 
   function scoring(n) {
     setScore(currScore.current + n);
@@ -34,10 +43,13 @@ export default function Gameboard() {
   return (
     <div className='asteroid-field'>
       <Score score={score} />
-      <Health />
       
+      <Health />
+
       {context.gameStage === 'start' ? <button className='start' onClick={startGame}>Start Game</button> : null }
-      {context.gameStage === 'end' ? <button className='start' onClick={startGame}>Final score: {currScore.current}<br />Start another game?</button> : null }
+      
+      {context.gameStage === 'end' ? <button className='start' onClick={resetGame}>Final score: {currScore.current}<br />Start another game?</button> : null }
+      
       {game ? <AsteroidField setGame={endGame} game={game} scoreHandler={scoring} /> : null}
 
       <div className='mini-moose' onClick={() => nyah.play()}></div>
