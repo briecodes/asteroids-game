@@ -28,12 +28,12 @@ export default function Asteroid(props) {
   useEffect(() => {
     armageddonTimeout.current = window.setTimeout( () => {
       suddenImpact();
-    }, 9500);
+    }, props.speed * 1000);
 
     return () => {
       clearTimeout(armageddonTimeout.current);
     };
-  }, [suddenImpact]);
+  }, [suddenImpact, props]);
 
   function directHit() {
     clearInterval(armageddonTimeout.current);
@@ -42,7 +42,7 @@ export default function Asteroid(props) {
   };
 
   return (
-    <div className='asteroid-container' onClick={directHit} id={props.id} ref={asteroidContainer} style={{left: xAxis}} >
+    <div className='asteroid-container' onClick={directHit} id={props.id} ref={asteroidContainer} style={{left: xAxis, animation: `asteroid-trajectory 1 ${props.speed}s linear forwards`}} >
       <div className={`asteroid a${aNum.toFixed(0)}`} ref={asteroid}></div>
     </div>
   );

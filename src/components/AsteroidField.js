@@ -9,6 +9,7 @@ export default function AsteroidField(props) {
   const [asteroidCounter, setAsteroidCounter] = useState(0);
   const [asteroidArray, setAsteroidArray] = useState([]);
   const currArr = useRef();
+  const asteroidSpeed = Math.floor(Math.random() * 10 + 1);
 
 
   useEffect( () => {
@@ -25,7 +26,7 @@ export default function AsteroidField(props) {
   });
 
   function addAsteroid() {
-    setAsteroidArray([...asteroidArray, <Asteroid key={asteroidCounter + 'a'} id={asteroidCounter + 'a'} removeAsteroid={removeAsteroid} scoreHandler={props.scoreHandler} />]);
+    setAsteroidArray([...asteroidArray, <Asteroid key={asteroidCounter + 'a'} id={asteroidCounter + 'a'} removeAsteroid={removeAsteroid} scoreHandler={props.scoreHandler} speed={asteroidSpeed} />]);
     setAsteroidCounter(asteroidCounter + 1);
   };
 

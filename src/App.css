@@ -95,7 +95,6 @@ div.asteroid-container {
   height: 7vh;
   z-index: 3;
   cursor: pointer;
-  animation: asteroid-trajectory 1 10s linear;
 }
 
 div.asteroid.a0 {
