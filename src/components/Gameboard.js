@@ -33,7 +33,7 @@ export default function Gameboard() {
     currScore.current = score;
     setGame(true);
     context.gameStage = 'play';
-  }
+  };
 
   function scoring(n) {
     setScore(currScore.current + n);
