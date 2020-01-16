@@ -5,6 +5,8 @@ body {
   background-position: center;
   height: 100vh;
   width: 100vw;
+  padding: 0;
+  margin: 0;
   font-family: 'Lacquer', sans-serif;
 }
 
