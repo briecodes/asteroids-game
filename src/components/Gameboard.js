@@ -4,6 +4,8 @@ import AppContext from '../AppContext';
 import Score from './Score';
 import Health from './Health';
 import AsteroidField from './AsteroidField';
+import StartScreen from './StartScreen';
+import EndScreen from './EndScreen';
 import Nyah from '../assets/audio/mini-moose-nyah.mp3';
 
 export default function Gameboard() {
@@ -46,9 +48,9 @@ export default function Gameboard() {
       
       <Health />
 
-      {context.gameStage === 'start' ? <button className='start' onClick={startGame}>Start Game</button> : null }
+      {context.gameStage === 'start' ? <StartScreen startGame={startGame} /> : null }
       
-      {context.gameStage === 'end' ? <button className='start' onClick={resetGame}>Final score: {currScore.current}<br />Start another game?</button> : null }
+      {context.gameStage === 'end' ? <EndScreen resetGame={resetGame} score={currScore.current} /> : null }
       
       {game ? <AsteroidField setGame={endGame} game={game} scoreHandler={scoring} /> : null}
 
