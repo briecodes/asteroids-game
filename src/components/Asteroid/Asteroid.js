@@ -1,5 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 
+import './Asteroid.css';
+
 export default function Asteroid(props) {
   const asteroidContainer = useRef();
   const asteroid = useRef();

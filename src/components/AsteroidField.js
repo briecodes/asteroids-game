@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import Asteroid from './Asteroid';
+import Asteroid from './Asteroid/Asteroid';
 
 export default function AsteroidField(props) {
   const randomInterval = Math.random() * 1000 + 1;

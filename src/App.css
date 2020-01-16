@@ -119,66 +119,6 @@ div.planet {
   background-repeat: no-repeat;
 }
 
-div.asteroid-container {
-  position: absolute;
-  width: 7vh;
-  height: 7vh;
-  z-index: 3;
-  cursor: pointer;
-}
-
-div.asteroid.a0 {
-  background-image: url(./assets/images/asteroid_01.png);
-}
-
-div.asteroid.a1 {
-  background-image: url(./assets/images/asteroid_02.png);
-}
-
-div.asteroid.a2 {
-  background-image: url(./assets/images/asteroid_03.png);
-}
-
-div.asteroid.a3 {
-  background-image: url(./assets/images/asteroid_04.png);
-}
-
-div.asteroid.splody {
-  background-image: url(./assets/images/explosion.png);
-  animation: quickFade 0.2s linear forwards;
-  cursor: unset;
-}
-
-div.asteroid {
-  width: 100%;
-  height: 100%;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-  animation: asteroid-spin infinite 5s linear;
-}
-
-
-@keyframes asteroid-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes asteroid-trajectory {
-  from {
-    bottom: 100vh;
-  }
-  to {
-    bottom: 10vh;
-    left: calc(50% - 4.75vh);
-  }
-}
-
 @keyframes float {
   from {
   }
