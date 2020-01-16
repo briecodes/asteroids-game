@@ -13,7 +13,8 @@ export default function AsteroidField(props) {
 
 
   useEffect( () => {
-    if (context.health < 10) endGame();
+    // if (context.health < 10) endGame();
+    if (props.health < 10) props.setGame();
     currArr.current = asteroidArray;
 
     const gameInterval = window.setInterval(() => {
@@ -37,7 +38,7 @@ export default function AsteroidField(props) {
   };
 
   function endGame() {
-    props.setGame(false);
+    props.setGame();
   };
 
   return(

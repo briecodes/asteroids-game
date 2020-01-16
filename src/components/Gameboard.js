@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect, useReducer } from 'react';
 import AppContext from '../AppContext';
 
 import Score from './Score';
@@ -15,44 +15,90 @@ export default function Gameboard() {
   const [game, setGame] = useState(false);
   const currScore = useRef();
 
-  useEffect(() => {
-    currScore.current = score;
-  });
+  let [state, dispatch] = useReducer(
+    (state, action) => {
+      switch(action.type) {
+        case 'PLAY':
+          return {
+            ...state,
+            gameStage: 'PLAY'
+          };
+        case 'END':
+          return {
+            ...state,
+            gameStage: 'END'
+          };
+        case 'RESET':
+          return {
+            ...state,
+            gameStage: 'START',
+            score: 0,
+            health: 100
+          };
+        case 'HIT':
+          return {
+            ...state,
+            score: state.score + 5
+          };
+        case 'ARMAGEDDON':
+          return {
+            ...state,
+            score: state.score - 10,
+            health: state.health - 10
+          };
+        default: return state;
+      };
+    },
+    {
+      gameStage: 'START',
+      score: 0,
+      health: 100
+    }
+  );
+
+
+  // useEffect(() => {
+  //   currScore.current = score;
+  // });
 
   function startGame() {
-    setGame(true);
-    context.gameStage = 'play';
+    dispatch({type: 'PLAY'});
+    // setGame(true);
+    // context.gameStage = 'play';
   };
 
   function endGame() {
-    setGame(false);
-    context.gameStage = 'end';
+    dispatch({type: 'END'});
+    // setGame(false);
+    // context.gameStage = 'end';
   };
 
   function resetGame() {
-    context.health = 100;
-    setScore(0);
-    currScore.current = score;
-    setGame(true);
-    context.gameStage = 'play';
+    dispatch({type: 'RESET'})
+    // context.health = 100;
+    // setScore(0);
+    // currScore.current = score;
+    // setGame(true);
+    // context.gameStage = 'play';
   };
 
   function scoring(n) {
-    setScore(currScore.current + n);
-    currScore.current = score;
+    dispatch({type: 'HIT'});
+    // setScore(currScore.current + n);
+    // currScore.current = score;
   };
 
   return (
     <div className='asteroid-field'>
-      <Score score={score} />
+      <Score score={state.score} />
       
-      <Health />
+      <Health health={state.health} />
 
-      {context.gameStage === 'start' ? <StartScreen startGame={startGame} /> : null }
+      {state.gameStage === 'START' ? <StartScreen startGame={startGame} /> : null }
       
-      {context.gameStage === 'end' ? <EndScreen resetGame={resetGame} score={currScore.current} /> : null }
+      {state.gameStage === 'END' ? <EndScreen resetGame={resetGame} score={state.score} /> : null }
       
-      {game ? <AsteroidField setGame={endGame} game={game} scoreHandler={scoring} /> : null}
+      {state.gameStage === 'PLAY' ? <AsteroidField setGame={endGame} scoreHandler={dispatch} health={state.health} /> : null}
 
       <div className='mini-moose' onClick={() => nyah.play()}></div>
       <div className='planet'></div>

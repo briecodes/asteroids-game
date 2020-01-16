@@ -20,8 +20,9 @@ export default function Asteroid(props) {
   }, [props]);
 
   const suddenImpact = useCallback( () => {
-    context.health = context.health - 10;
-    props.scoreHandler(-10);
+    // context.health = context.health - 10;
+    // props.scoreHandler(-10);
+    props.scoreHandler({type: 'ARMAGEDDON'});
     splodeIt();
   }, [context, splodeIt, props]);
 
@@ -37,7 +38,8 @@ export default function Asteroid(props) {
 
   function directHit() {
     clearInterval(armageddonTimeout.current);
-    props.scoreHandler(5);
+    // props.scoreHandler(5);
+    props.scoreHandler({type: 'HIT'});
     splodeIt();
   };
 
