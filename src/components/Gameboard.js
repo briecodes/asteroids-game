@@ -1,5 +1,4 @@
-import React, { useContext, useState, useRef, useEffect, useReducer } from 'react';
-import AppContext from '../AppContext';
+import React, { useReducer } from 'react';
 
 import Score from './Score';
 import Health from './Health';
@@ -10,10 +9,6 @@ import Nyah from '../assets/audio/mini-moose-nyah.mp3';
 
 export default function Gameboard() {
   const nyah = new Audio(Nyah);
-  const context = useContext(AppContext);
-  const [score, setScore] = useState(0);
-  const [game, setGame] = useState(false);
-  const currScore = useRef();
 
   let [state, dispatch] = useReducer(
     (state, action) => {
@@ -56,36 +51,16 @@ export default function Gameboard() {
     }
   );
 
-
-  // useEffect(() => {
-  //   currScore.current = score;
-  // });
-
   function startGame() {
     dispatch({type: 'PLAY'});
-    // setGame(true);
-    // context.gameStage = 'play';
   };
 
   function endGame() {
     dispatch({type: 'END'});
-    // setGame(false);
-    // context.gameStage = 'end';
   };
 
   function resetGame() {
     dispatch({type: 'RESET'})
-    // context.health = 100;
-    // setScore(0);
-    // currScore.current = score;
-    // setGame(true);
-    // context.gameStage = 'play';
-  };
-
-  function scoring(n) {
-    dispatch({type: 'HIT'});
-    // setScore(currScore.current + n);
-    // currScore.current = score;
   };
 
   return (

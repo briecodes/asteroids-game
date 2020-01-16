@@ -1,8 +1,6 @@
-import React, { useContext } from 'react';
-import AppContext from '../AppContext';
+import React from 'react';
 
 export default function Health(props) {
-  const context = useContext(AppContext);
   
   return (
     <div className='health-container'>

@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import AppContext from '../AppContext';
+import React, { useState, useEffect, useRef } from 'react';
 
 import Asteroid from './Asteroid';
 
 export default function AsteroidField(props) {
-  const context = useContext(AppContext);
   const randomInterval = Math.random() * 1000 + 1;
   const [asteroidCounter, setAsteroidCounter] = useState(0);
   const [asteroidArray, setAsteroidArray] = useState([]);
@@ -13,7 +11,6 @@ export default function AsteroidField(props) {
 
 
   useEffect( () => {
-    // if (context.health < 10) endGame();
     if (props.health < 10) props.setGame();
     currArr.current = asteroidArray;
 
@@ -35,10 +32,6 @@ export default function AsteroidField(props) {
     const item = currArr.current.find(n => {return n.key === id} );
     const itemIndex = currArr.current.indexOf(item);
     currArr.current.splice(itemIndex, 1);
-  };
-
-  function endGame() {
-    props.setGame();
   };
 
   return(

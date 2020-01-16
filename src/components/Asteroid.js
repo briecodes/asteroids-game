@@ -1,8 +1,6 @@
-import React, { useEffect, useCallback, useContext, useRef } from 'react';
-import AppContext from '../AppContext';
+import React, { useEffect, useCallback, useRef } from 'react';
 
 export default function Asteroid(props) {
-  const context = useContext(AppContext);
   const asteroidContainer = useRef();
   const asteroid = useRef();
   const xAxis = (Math.random() * 90 + 1) + '%';
@@ -20,11 +18,9 @@ export default function Asteroid(props) {
   }, [props]);
 
   const suddenImpact = useCallback( () => {
-    // context.health = context.health - 10;
-    // props.scoreHandler(-10);
     props.scoreHandler({type: 'ARMAGEDDON'});
     splodeIt();
-  }, [context, splodeIt, props]);
+  }, [splodeIt, props]);
 
   useEffect(() => {
     armageddonTimeout.current = window.setTimeout( () => {
@@ -38,7 +34,6 @@ export default function Asteroid(props) {
 
   function directHit() {
     clearInterval(armageddonTimeout.current);
-    // props.scoreHandler(5);
     props.scoreHandler({type: 'HIT'});
     splodeIt();
   };
