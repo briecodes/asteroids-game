@@ -51,29 +51,17 @@ export default function Gameboard() {
     }
   );
 
-  function startGame() {
-    dispatch({type: 'PLAY'});
-  };
-
-  function endGame() {
-    dispatch({type: 'END'});
-  };
-
-  function resetGame() {
-    dispatch({type: 'RESET'})
-  };
-
   return (
     <div className='asteroid-field'>
       <Score score={state.score} />
       
       <Health health={state.health} />
 
-      {state.gameStage === 'START' ? <StartScreen startGame={startGame} /> : null }
+      {state.gameStage === 'START' ? <StartScreen startGame={() => dispatch({type: 'PLAY'})} /> : null }
       
-      {state.gameStage === 'END' ? <EndScreen resetGame={resetGame} score={state.score} /> : null }
+      {state.gameStage === 'END' ? <EndScreen resetGame={() => dispatch({type: 'RESET'})} score={state.score} /> : null }
       
-      {state.gameStage === 'PLAY' ? <AsteroidField setGame={endGame} scoreHandler={dispatch} health={state.health} /> : null}
+      {state.gameStage === 'PLAY' ? <AsteroidField setGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} /> : null}
 
       <div className='mini-moose' onClick={() => nyah.play()}></div>
       <div className='planet'></div>
