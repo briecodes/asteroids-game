@@ -1,21 +1,43 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 
 import Asteroid from '../Asteroid/Asteroid';
 
 export default function AsteroidField(props) {
   const randomInterval = Math.random() * 1000 + 1;
   const [asteroidCounter, setAsteroidCounter] = useState(0);
-  const [asteroidArray, setAsteroidArray] = useState([]);
-  const currArr = useRef();
   const asteroidSpeed = Math.floor(Math.random() * 10 + 1);
 
+  let [state, dispatch] = useReducer(
+    (state, action) => {
+      switch(action.type) {
+        case 'ADD':
+          return {
+            ...state,
+            roids: [...state.roids, <Asteroid key={asteroidCounter + 'a'} id={asteroidCounter + 'a'} removeAsteroid={removeRoid} scoreHandler={props.scoreHandler} speed={asteroidSpeed} />]
+          };
+        case 'REMOVE':
+          return {
+            ...state,
+            roids: removeRoid()
+          }
+        case 'END':
+          return {
+            ...state,
+            roids: []
+          }
+        default:
+      };
+    },
+    {
+      roids: []
+    }
+  );
 
   useEffect( () => {
     if (props.health < 10) props.setGame();
-    currArr.current = asteroidArray;
 
     const gameInterval = window.setInterval(() => {
-      addAsteroid();
+      addRoid();
     }, randomInterval);
 
     return () => {
@@ -23,20 +45,22 @@ export default function AsteroidField(props) {
     };
   });
 
-  function addAsteroid() {
-    setAsteroidArray([...asteroidArray, <Asteroid key={asteroidCounter + 'a'} id={asteroidCounter + 'a'} removeAsteroid={removeAsteroid} scoreHandler={props.scoreHandler} speed={asteroidSpeed} />]);
+  function addRoid() {
+    dispatch({type: 'ADD'});
     setAsteroidCounter(asteroidCounter + 1);
   };
 
-  function removeAsteroid(id) {
-    const item = currArr.current.find(n => {return n.key === id} );
-    const itemIndex = currArr.current.indexOf(item);
-    currArr.current.splice(itemIndex, 1);
+  function removeRoid(id) {
+    const item = state.roids.find(n => {return n.key === id} );
+    const itemIndex = state.roids.indexOf(item);
+    const tempArr = state.roids;
+
+    return tempArr.splice(itemIndex, 1);
   };
 
   return(
     <React.Fragment>
-      {asteroidArray}
+      {state.roids}
     </React.Fragment>
   );
 };
