@@ -1,11 +1,13 @@
 import React, { useReducer } from 'react';
 
-import Score from './Score';
-import Health from './Health';
-import AsteroidField from './AsteroidField';
-import StartScreen from './StartScreen';
-import EndScreen from './EndScreen';
-import Nyah from '../assets/audio/mini-moose-nyah.mp3';
+import './Gameboard.css';
+
+import Score from '../Score/Score';
+import Health from '../Health/Health';
+import AsteroidField from '../AsteroidField/AsteroidField';
+import StartScreen from '../Screens/StartScreen';
+import EndScreen from '../Screens/EndScreen';
+import Nyah from '../../assets/audio/mini-moose-nyah.mp3';
 
 export default function Gameboard() {
   const nyah = new Audio(Nyah);

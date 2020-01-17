@@ -1,0 +1,10 @@
+div.score-counter {
+  user-select: none;
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 1.25em;
+  background: rgba(256, 256, 256, 0.25);
+}

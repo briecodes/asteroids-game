@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 
-import Gameboard from './components/Gameboard';
+import Gameboard from './components/Gameboard/Gameboard';
 
 function App() {
 

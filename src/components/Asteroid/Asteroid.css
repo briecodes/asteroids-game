@@ -57,3 +57,12 @@ div.asteroid {
     left: calc(50% - 4.75vh);
   }
 }
+
+@keyframes quickFade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

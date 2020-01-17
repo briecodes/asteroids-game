@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Screens.css';
+
 export default function StartScreen(props) {
   return (
     <div className='interim-module-container'>
