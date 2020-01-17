@@ -3,6 +3,7 @@ div.score-counter {
   position: absolute;
   top: 10px;
   left: 15px;
+  z-index: 10;
   padding: 15px;
   color: #ffffff;
   font-size: 1.25em;

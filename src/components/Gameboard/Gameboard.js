@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 import './Gameboard.css';
 
@@ -18,19 +18,20 @@ export default function Gameboard() {
         case 'PLAY':
           return {
             ...state,
-            gameStage: 'PLAY'
+            status: 'PLAY'
           };
         case 'END':
           return {
             ...state,
-            gameStage: 'END'
+            status: 'END'
           };
         case 'RESET':
           return {
             ...state,
-            gameStage: 'START',
+            status: 'STANDBY',
             score: 0,
-            health: 100
+            health: 100,
+            stage: 1
           };
         case 'HIT':
           return {
@@ -43,27 +44,45 @@ export default function Gameboard() {
             score: state.score - 10,
             health: state.health - 10
           };
+        case 'NEXT STAGE':
+          return {
+            ...state,
+            stage: state.stage + 1
+          }
         default: return state;
       };
     },
     {
-      gameStage: 'START',
+      status: 'STANDBY',
       score: 0,
-      health: 100
+      health: 100,
+      stage: 1
     }
   );
 
+  useEffect(() => {
+    const gameInterval = window.setInterval(() => {
+      console.log('leveling up');
+      if (state.status === 'PLAY') dispatch({type: 'NEXT STAGE'});
+    }, 10000 - (1000 * state.stage) );
+
+    return () => {
+      console.log('unmounting');
+      clearInterval(gameInterval);
+    };
+  }, [state.status, state.stage]);
+
   return (
     <div className='asteroid-field'>
-      <Score score={state.score} />
+      <Score score={state.score} stage={state.stage} />
       
       <Health health={state.health} />
 
-      {state.gameStage === 'START' ? <StartScreen startGame={() => dispatch({type: 'PLAY'})} /> : null }
+      {state.status === 'STANDBY' ? <StartScreen startGame={() => dispatch({type: 'PLAY'})} /> : null }
       
-      {state.gameStage === 'END' ? <EndScreen resetGame={() => dispatch({type: 'RESET'})} score={state.score} /> : null }
+      {state.status === 'END' ? <EndScreen resetGame={() => dispatch({type: 'RESET'})} score={state.score} stage={state.stage} /> : null }
       
-      {state.gameStage === 'PLAY' ? <AsteroidField endGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} /> : null}
+      {state.status === 'PLAY' ? <AsteroidField endGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} stage={state.stage} /> : null}
 
       <div className='mini-moose' onClick={() => nyah.play()}></div>
       <div className='planet'></div>

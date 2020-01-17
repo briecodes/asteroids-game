@@ -5,7 +5,7 @@ import Asteroid from '../Asteroid/Asteroid';
 export default function AsteroidField(props) {
   const randomInterval = Math.random() * 1000 + 1;
   const [asteroidCounter, setAsteroidCounter] = useState(0);
-  const asteroidSpeed = Math.floor(Math.random() * 10 + 1);
+  const asteroidSpeed = Math.floor(Math.random() * (11 - props.stage) + (6 - props.stage));
 
   let [state, dispatch] = useReducer(
     (state, action) => {
