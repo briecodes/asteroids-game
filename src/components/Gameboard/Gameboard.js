@@ -63,7 +63,7 @@ export default function Gameboard() {
       
       {state.gameStage === 'END' ? <EndScreen resetGame={() => dispatch({type: 'RESET'})} score={state.score} /> : null }
       
-      {state.gameStage === 'PLAY' ? <AsteroidField setGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} /> : null}
+      {state.gameStage === 'PLAY' ? <AsteroidField endGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} /> : null}
 
       <div className='mini-moose' onClick={() => nyah.play()}></div>
       <div className='planet'></div>

@@ -34,7 +34,7 @@ export default function AsteroidField(props) {
   );
 
   useEffect( () => {
-    if (props.health < 10) props.setGame();
+    if (props.health < 10) props.endGame();
 
     const gameInterval = window.setInterval(() => {
       addRoid();
