@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 
 import Asteroid from '../Asteroid/Asteroid';
+import useInterval from '../../Hooks/useInterval';
 
 export default function AsteroidField(props) {
   const randomInterval = Math.random() * 1000 + 1;
@@ -37,18 +38,14 @@ export default function AsteroidField(props) {
     if (props.health < 10) props.endGame();
 
     const gameInterval = window.setInterval(() => {
-      addRoid();
+      dispatch({type: 'ADD'});
+      setAsteroidCounter(asteroidCounter + 1);
     }, randomInterval);
 
     return () => {
       clearInterval(gameInterval);
     };
-  });
-
-  function addRoid() {
-    dispatch({type: 'ADD'});
-    setAsteroidCounter(asteroidCounter + 1);
-  };
+  }, [props, randomInterval, asteroidCounter]);
 
   function removeRoid(id) {
     const item = state.roids.find(n => {return n.key === id} );
@@ -57,6 +54,10 @@ export default function AsteroidField(props) {
 
     return tempArr.splice(itemIndex, 1);
   };
+
+  useInterval(() => {
+    props.stageHandler();
+  }, 5000);
 
   return(
     <React.Fragment>

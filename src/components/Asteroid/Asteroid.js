@@ -11,6 +11,7 @@ export default function Asteroid(props) {
 
   const splodeIt = useCallback(() => {
     asteroidContainer.current.style.animationPlayState = 'paused';
+    asteroidContainer.current.classList.add('sploded');
     asteroid.current.classList.add('splody');
 
     window.setTimeout(() => {

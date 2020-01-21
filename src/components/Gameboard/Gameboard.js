@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer /*useEffect*/ } from 'react';
 
 import './Gameboard.css';
 
@@ -60,18 +60,6 @@ export default function Gameboard() {
     }
   );
 
-  useEffect(() => {
-    const gameInterval = window.setInterval(() => {
-      console.log('leveling up');
-      if (state.status === 'PLAY') dispatch({type: 'NEXT STAGE'});
-    }, 10000 - (1000 * state.stage) );
-
-    return () => {
-      console.log('unmounting');
-      clearInterval(gameInterval);
-    };
-  }, [state.status, state.stage]);
-
   return (
     <div className='asteroid-field'>
       <Score score={state.score} stage={state.stage} />
@@ -82,7 +70,7 @@ export default function Gameboard() {
       
       {state.status === 'END' ? <EndScreen resetGame={() => dispatch({type: 'RESET'})} score={state.score} stage={state.stage} /> : null }
       
-      {state.status === 'PLAY' ? <AsteroidField endGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} stage={state.stage} /> : null}
+      {state.status === 'PLAY' ? <AsteroidField endGame={() => dispatch({type: 'END'})} scoreHandler={dispatch} health={state.health} stage={state.stage} stageHandler={() => dispatch({type: 'NEXT STAGE'})} /> : null}
 
       <div className='mini-moose' onClick={() => nyah.play()}></div>
       <div className='planet'></div>
