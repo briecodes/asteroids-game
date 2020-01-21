@@ -57,7 +57,7 @@ export default function AsteroidField(props) {
 
   useInterval(() => {
     props.stageHandler();
-  }, 5000);
+  }, 10000);
 
   return(
     <React.Fragment>
