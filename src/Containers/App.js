@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import Gameboard from './components/Gameboard/Gameboard';
+import Gameboard from '../components/Gameboard/Gameboard';
 
 function App() {
 

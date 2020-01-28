@@ -39,3 +39,17 @@ div.interim-module p {
   padding: 0;
   margin: 15px 0 0 0;
 }
+
+
+@media(max-width: 600px) {
+  div.interim-module {
+    width: 50%;
+  }
+  div.interim-module h1 {
+    font-size: 1.3em;
+  }
+  button.start {
+    padding: 10px;
+    font-size: 1.3em;
+  }
+}

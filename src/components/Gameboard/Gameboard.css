@@ -42,3 +42,11 @@ div.planet {
     bottom: 9vh;
   }
 }
+
+@media(max-width: 600px) {
+  div.asteroid-field {
+    height: 90vh;
+    width: 100vw;
+    left: 0;
+  }
+}
